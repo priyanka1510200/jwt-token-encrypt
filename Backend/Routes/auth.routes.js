@@ -5,9 +5,6 @@ const router = express.Router();
 const User = require('../Models/user.model');
 const jwtUtils = require('../Utils/jwt.utils');
 
-const getExWord = () => {
-  return new Date().getTime().toString(); 
-};
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -21,8 +18,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
     
-    const exWord = getExWord();
+   
     const token = jwtUtils.generateToken(user); 
+    console.log("user Token:",token);
     
     if (!token) {
       throw new Error('Failed to generate token');
@@ -32,6 +30,17 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.post('/verify-token', (req, res) => {
+  const { token } = req.body;
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    res.json({ decoded });
+  } catch (error) {
+    console.error('Token verification error:', error);
+    res.status(401).json({ message: 'Token is invalid or expired' });
   }
 });
 
