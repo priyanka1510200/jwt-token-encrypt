@@ -12,11 +12,11 @@ export const initialState: AuthState = {
 export const authReducer = createReducer(
   initialState,
   on(AuthActions.loginSuccess, (state, { token }) => {
-    localStorage.setItem('authToken', token);
+    
     return { ...state, token };
   }),
-  on(AuthActions.logout, state => {
-    localStorage.removeItem('authToken');
+  on(AuthActions.logout, state => { 
+    
     return { ...state, token: null };
   })
 );

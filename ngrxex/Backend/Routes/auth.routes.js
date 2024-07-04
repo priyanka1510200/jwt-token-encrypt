@@ -23,6 +23,7 @@ router.post('/login', async (req, res) => {
     
     const exWord = getExWord();
     const token = jwtUtils.generateToken(user); 
+    console.log("Token:  ",token);
     
     if (!token) {
       throw new Error('Failed to generate token');

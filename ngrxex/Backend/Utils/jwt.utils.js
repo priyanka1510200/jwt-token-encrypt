@@ -65,8 +65,9 @@ const generateToken = (user) => {
     email: encrypt(user.email)
   }  
   const secretKey = process.env.SECRET_KEY;
+  console.log("Token:",secretKey);
   if (!secretKey) {
-    throw new Error('No secret key found. Ensure you have set a SECRET_KEY environment variable.');
+    throw new Error('No secret key found.');
   }
 
   return jwt.sign(payload, secretKey, { 
